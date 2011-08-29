@@ -90,7 +90,7 @@
           <label value="Hello!"/>
           <hbox style="margin: 0">
 	    <button  id="id-zotfile-preview-button" label="Update"
-                     oncommand="Zotero.ZotFile.HelloWorld()"/>
+                     oncommand="Zotero.Hello.HelloWorld()"/>
    	  </hbox> 
    	  <separator/>	                        	  
 	  <hbox style="margin: 0">					

@@ -3,7 +3,7 @@ function updateSettings(which) {
 //	var win = this.wm.getMostRecentWindow("navigator:browser"); 
 //	var items = win.ZoteroPane.getSelectedItems();		
 //	var item = items[0];    	
-//	var filename=Zotero.ZotFile.getFilename(item, "");
+//	var filename=Zotero.Hello.getFilename(item, "");
 			              
 	// Batch Renaming                                                                   
 	if(which=="confirm" | which=="all") {	
@@ -93,12 +93,12 @@ function updateSettings(which) {
 
 function previewFilename() {    
 	try {
-		var win = Zotero.ZotFile.wm.getMostRecentWindow("navigator:browser"); 
+		var win = Zotero.Hello.wm.getMostRecentWindow("navigator:browser"); 
 		var items = win.ZoteroPane.getSelectedItems();		
 		var item = items[0];    	
 						
-		if(item.isRegularItem()) var filename=Zotero.ZotFile.getFilename(item, "");
-		if(item.getSource()) if(item.isAttachment()) var filename=Zotero.ZotFile.getFilename(Zotero.Items.get(item.getSource()), "");
+		if(item.isRegularItem()) var filename=Zotero.Hello.getFilename(item, "");
+		if(item.getSource()) if(item.isAttachment()) var filename=Zotero.Hello.getFilename(Zotero.Items.get(item.getSource()), "");
 
 		return(filename);		
 	}

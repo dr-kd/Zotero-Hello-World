@@ -1,4 +1,4 @@
-Zotero.ZotFile = {
+Zotero.Hello = {
 	
     prefs: null,
     wm: null,
@@ -8,7 +8,7 @@ Zotero.ZotFile = {
 	    //this should get called when the dynamic overlay loading in createUI is complete.
 	    //we adjust UI stuff according to preferences here.
 	    document.getElementById("zotfile-usetags").setAttribute("checked",
-				                                    Zotero.ZotFile.prefs.getBoolPref("useTags").toString());
+				                                    Zotero.Hello.prefs.getBoolPref("useTags").toString());
 	}		
  	},	
 
@@ -319,7 +319,7 @@ Zotero.ZotFile = {
 
 
 // Initialize the utility
-//window.addEventListener('load', function(e) { Zotero.ZotFile.init(); }, false);
+//window.addEventListener('load', function(e) { Zotero.Hello.init(); }, false);
 
 
 //check whether it really is an bibliographic item (no Attachment, note or collection)

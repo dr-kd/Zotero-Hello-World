@@ -14,21 +14,14 @@
 	<menupopup id="zotero-itemmenu">
 		<!-- Make sure the menu separator for utilities is visible -->
 		<menuseparator/>
-		<menuitem label="Hello World" tooltiptext="Hello World" oncommand="Zotero.ZotFile.HelloWorld();"/>
+		<menuitem label="Hello World" tooltiptext="Hello World" oncommand="Zotero.Hello.HelloWorld();"/>
 	</menupopup>         
 	
 	<menupopup id="zotero-tb-actions-popup">
     <menuitem id="zotfile-options" insertafter="zotero-tb-actions-prefs" label="ZotFile Preferences..."
-      oncommand="Zotero.ZotFile.Preferences();"/>
+      oncommand="Zotero.Hello.Preferences();"/>
 	</menupopup>
 	
-	
-	<!--
-	<menupopup id="zotero-tb-attachment-add">
-		<menuitem class="menuitem-zotfile-new-item" label="ZotFile - Attach New File" oncommand="Zotero.ZotFile.AttachNewFile();"/>
-		<menuitem class="menuitem-zotfile-rename-item" label="ZotFile - Rename Existing Attachments" oncommand="Zotero.ZotFile.RenameAttachments();"/>
-	</menupopup>	
-	-->
 	
 	<!-- Include the main extension logic -->
 	<script src="chrome://zotero/content/include.js"/>
