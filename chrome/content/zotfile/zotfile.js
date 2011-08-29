@@ -755,6 +755,9 @@ Zotero.ZotFile = {
 //			else this.infoWindow("Zotfile Error","Selected item is in a Group Library.",8000);	
 				
 		},
+HelloWorld: function() {
+    alert("Hello World");
+},
 	
 	// FUNCTION: Rename & Move Existing Attachments
 	ExistingAttachments: function(){

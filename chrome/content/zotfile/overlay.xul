@@ -14,8 +14,7 @@
 	<menupopup id="zotero-itemmenu">
 		<!-- Make sure the menu separator for utilities is visible -->
 		<menuseparator/>
-		<menuitem label="ZotFile - Attach New File(s)" tooltiptext="Move and attach last file in user defined folder to selected Zotero item" oncommand="Zotero.ZotFile.AttachNewFile();"/>
-		<menuitem label="ZotFile - Rename Existing Attachments" tooltiptext="Move and rename existing Attachments from selected Zotero item" oncommand="Zotero.ZotFile.ExistingAttachments();"/>
+		<menuitem label="Hello World" tooltiptext="Hello World" oncommand="Zotero.ZotFile.HelloWorld();"/>
 	</menupopup>         
 	
 	<menupopup id="zotero-tb-actions-popup">
