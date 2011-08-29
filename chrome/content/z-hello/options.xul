@@ -104,6 +104,6 @@
   
   <script src="options.js"/> 
   <script src="chrome://zotero/content/include.js"/>
-  <script src="chrome://zotfile/content/include.js"/>	
+  <script src="chrome://z-hello/content/include.js"/>	
   
 </prefwindow>  

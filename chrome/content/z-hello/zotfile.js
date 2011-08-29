@@ -13,7 +13,7 @@ Zotero.Hello = {
  	},	
 
 	createUI: function() {
-	    document.loadOverlay("chrome://zotfile/content/overlay.xul", this.mergeObserver);
+	    document.loadOverlay("chrome://z-hello/content/overlay.xul", this.mergeObserver);
 	},       
     
     Preferences: function (paneID, action) {
@@ -21,7 +21,7 @@ Zotero.Hello = {
 	    pane: paneID,
 	    action: action
 	};
-	window.openDialog('chrome://zotfile/content/options.xul',
+	window.openDialog('chrome://z-hello/content/options.xul',
 			  'zotfile-options',
 			  'chrome,titlebar,toolbar,centerscreen'
 			  + Zotero.Prefs.get('browser.preferences.instantApply', true) ? 'dialog=no' : 'modal',

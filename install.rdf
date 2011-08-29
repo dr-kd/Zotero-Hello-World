@@ -28,7 +28,7 @@
     <em:description>Zotero Plugin to automatically rename, move, and attach pdf (or other) files to Zotero items by pressing a button. Supports user specified directories and renaming rules using metadata from Zotero items, and batch processing of existing attachments.</em:description>
     <em:creator>Joscha Legewie</em:creator>
     <em:homepageURL>http://www.columbia.edu/~jpl2136/zotfile.html</em:homepageURL>
-    <em:optionsURL>chrome://zotfile/content/options.xul</em:optionsURL>
+    <em:optionsURL>chrome://z-hello/content/options.xul</em:optionsURL>
   </Description>      
 </RDF>
                               

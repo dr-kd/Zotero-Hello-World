@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
-<?xml-stylesheet href="chrome://zotfile/skin/overlay.css" type="text/css"?>
-<!DOCTYPE window SYSTEM "chrome://zotfile/locale/zotfile.dtd">
+<?xml-stylesheet href="chrome://z-hello/skin/overlay.css" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://z-hello/locale/zotfile.dtd">
 
 <overlay id="zotfile-overlay"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">	
 	
 	<stringbundleset id="stringbundleset">
 		<stringbundle id="zotfile-strings"
-			      src="chrome://zotfile/locale/zotfile.properties"/>
+			      src="chrome://z-hello/locale/zotfile.properties"/>
 	</stringbundleset>
 	
 	<!-- ZotFile context menus -->	
@@ -25,6 +25,6 @@
 	
 	<!-- Include the main extension logic -->
 	<script src="chrome://zotero/content/include.js"/>
-	<script src="chrome://zotfile/content/include.js"/>	
+	<script src="chrome://z-hello/content/include.js"/>	
 	
 </overlay>
