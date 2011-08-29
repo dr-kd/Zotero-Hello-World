@@ -25,10 +25,9 @@ Zotero.ZotFile = {
 			  'zotfile-options',
 			  'chrome,titlebar,toolbar,centerscreen'
 			  + Zotero.Prefs.get('browser.preferences.instantApply', true) ? 'dialog=no' : 'modal',
-			  io
-		         );   
+			  io);   
     },	
-
+    
     init: function () {
 	//set up preferences
 	this.prefs = Components.classes["@mozilla.org/preferences-service;1"].
