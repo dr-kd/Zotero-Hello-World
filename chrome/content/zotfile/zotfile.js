@@ -1,219 +1,177 @@
 Zotero.ZotFile = {
-	
-	prefs: null,
+    prefs: null,
     wm: null,
-	fileMap: {}, //maps collections to their file objects
+    fileMap: {}, //maps collections to their file objects
 
-	mergeObserver: {
-		observe: function(a, b, c){
-			//this should get called when the dynamic overlay loading in createUI is complete.
-			//we adjust UI stuff according to preferences here.
-			document.getElementById("zotfile-usetags").setAttribute("checked",
-				 Zotero.ZotFile.prefs.getBoolPref("useTags").toString());
-		}		
- 	},	
+    mergeObserver: {
+	observe: function(a, b, c){
+	    //this should get called when the dynamic overlay loading in createUI is complete.
+	    //we adjust UI stuff according to preferences here.
+	    document.getElementById("zotfile-usetags").setAttribute("checked",
+                Zotero.ZotFile.prefs.getBoolPref("useTags").toString());
+	}		
+    },	
 
-	createUI: function() {
-		// Coment from lytero "I can't reference the node where I want to add stuff directly in an overlay because it has no ID,
-		// so I'll create the minimum here and dynamically load the overlay."
-//		var lmenu = document.createElement("toolbarbutton");
-//		lmenu.setAttribute("id", "overlay");
-//		var parentn = document.getElementById("zotero-collections-pane").firstChild.firstChild;
-//		parentn = document.getElementById("zotero-items-pane").firstChild;
-//		var zfb = document.createElement("toolbarbutton");
-//		zfb.setAttribute("id", "zf-button");
-//		siblingn = document.getElementById("zotero-tb-advanced-search");
-		// add the button to start action 
-//		parentn.insertBefore(zfb, siblingn);
-//		parentn.insertBefore(document.createElement("toolbarseparator"),siblingn);
-
-		//load the overlay
-		document.loadOverlay("chrome://zotfile/content/overlay.xul", this.mergeObserver);
-		
-	},       
+    createUI: function() {
+	document.loadOverlay("chrome://zotfile/content/overlay.xul", this.mergeObserver);
+    },       
 	
-	Preferences: function (paneID, action) {
-		var io = {
-			pane: paneID,
-			action: action
-		};
-		window.openDialog('chrome://zotfile/content/options.xul',
-			'zotfile-options',
-			'chrome,titlebar,toolbar,centerscreen'
-				+ Zotero.Prefs.get('browser.preferences.instantApply', true) ? 'dialog=no' : 'modal',
-			io
-		);   
-	},	
+    Preferences: function (paneID, action) {
+	var io = {
+	    pane: paneID,
+	    action: action
+	};
+	window.openDialog('chrome://zotfile/content/options.xul',
+			  'zotfile-options',
+			  'chrome,titlebar,toolbar,centerscreen'
+			  + Zotero.Prefs.get('browser.preferences.instantApply', true) ? 'dialog=no' : 'modal',
+			  io
+		         );   
+    },	
 
-	init: function () {
-		//set up preferences
-		this.prefs = Components.classes["@mozilla.org/preferences-service;1"].
-		            getService(Components.interfaces.nsIPrefService);
-		this.prefs = this.prefs.getBranch("extensions.zotfile.");
-
-		this.ffPrefs = Components.classes["@mozilla.org/preferences-service;1"].
-		            getService(Components.interfaces.nsIPrefService).getBranch("browser.download.");
-		
-		this.wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-			.getService(Components.interfaces.nsIWindowMediator);		   		
-				
+    init: function () {
+	//set up preferences
+	this.prefs = Components.classes["@mozilla.org/preferences-service;1"].
+	    getService(Components.interfaces.nsIPrefService);
+	this.prefs = this.prefs.getBranch("extensions.zotfile.");
+        
+	this.ffPrefs = Components.classes["@mozilla.org/preferences-service;1"].
+	    getService(Components.interfaces.nsIPrefService).getBranch("browser.download.");
+	
+	this.wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+	    .getService(Components.interfaces.nsIWindowMediator);		   		
+	
     	if (this.prefs.getBoolPref("firstuse")) { 
-		   // open website
-		   window.open("http://www.columbia.edu/~jpl2136/zotfile.html");  
-//			gBrowser.selectedTab = gBrowser.addTab("http://www.columbia.edu/~jpl2136/zotfile.html");
-
-	   	   // determine OS
-		   var windows=false;
-		   if (navigator.appVersion.indexOf("Win")!=-1) var windows=true;
-
-		   // check preferences source_dir
-		   if (this.prefs.getCharPref("source_dir")!="") this.prefs.setBoolPref('source_dir_ff',false);		
-		   if (this.prefs.getCharPref("source_dir")=="" &  windows)  this.prefs.setBoolPref('source_dir_ff',true);
-		   if (this.prefs.getCharPref("source_dir")=="" & !windows) {                     
-			    if (this.getFFDownloadDir()==this.createFile("~/Downloads").path) {
-					this.prefs.setBoolPref('source_dir_ff',true);
-				}
-			    else {
-					if(confirm("ZotFile Settings\n\nSome of zotfile's default settings have changed and you should make a decision about the source dir. The source dir is the directory where ZotFile looks for the most recently modified file when you 'Attach New File' using zotfile. It is useful to use the default downloads folder from Firefox (currently is '" + this.getFFDownloadDir() + "').\nDo you want to use FF default downloads folder (recommended)?")) {
-						this.prefs.setBoolPref('source_dir_ff',true); 
-					}
-					else {
-						this.prefs.setBoolPref('source_dir_ff',false); 
-						if (confirm("ZotFile Settings\n\nPlease select a custom source dir.")) this.prefs.setCharPref('source_dir',this.chooseDirectory());
-  					}
-
-				}			   
-			}
-
-			// check whether valid FF default download folder
-		    if(this.prefs.getBoolPref('source_dir_ff') &  this.getSourceDir(false)==-1) {
-			   	this.prefs.setBoolPref('source_dir_ff',false);
-				this.prefs.setCharPref('source_dir',prompt("ZotFile Settings\n\nZotfile is not able to determine your default FF download folder. Please enter a custom source dir. The source dir is the directory where ZotFile looks for the most recently modified file when you 'Attach New File' using zotfile."));  			
-			}
-
-			// dest_dir   
-		   if (this.prefs.getCharPref("dest_dir")!="") this.prefs.setBoolPref('import',false);		
-		   if (this.prefs.getCharPref("dest_dir")=="" &  windows)  this.prefs.setBoolPref('import',true);
-		   if (this.prefs.getCharPref("dest_dir")=="" & !windows) {                     
-					if(confirm("ZotFile Settings\n\nSome of zotfile's default settings have changed and you should make a decision about the way attachments are handled ('Destination'). Do you want to import attachments i.e. store a copy of the file in zotero (recommended)? Otherwise attachments are added as a link to the file.")) {
-						this.prefs.setBoolPref('import',true); 
-					}
-					else {
-						this.prefs.setBoolPref('import',false);
-						if (confirm("ZotFile Settings\n\nPlease select the folder where you want zotfile to move your attachments.")) this.prefs.setCharPref('dest_dir',this.chooseDirectory());
-
-					}
-
-			} 
-
-		   // set firstuse to false
-		   this.prefs.setBoolPref("firstuse",false);
-		 
+	    // open website
+	    window.open("http://www.columbia.edu/~jpl2136/zotfile.html");  
+            //			gBrowser.selectedTab = gBrowser.addTab("http://www.columbia.edu/~jpl2136/zotfile.html");
+            
+	    // determine OS
+	    var windows=false;
+	    if (navigator.appVersion.indexOf("Win")!=-1) var windows=true;
+            
+	    // check preferences source_dir
+	    if (this.prefs.getCharPref("source_dir")!="") this.prefs.setBoolPref('source_dir_ff',false);		
+	    if (this.prefs.getCharPref("source_dir")=="" &  windows)  this.prefs.setBoolPref('source_dir_ff',true);
+	    if (this.prefs.getCharPref("source_dir")=="" & !windows) {                     
+		if (this.getFFDownloadDir()==this.createFile("~/Downloads").path) {
+		    this.prefs.setBoolPref('source_dir_ff',true);
 		}
-		
-		
-//		this.wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].
-//				getService(Components.interfaces.nsIWindowMediator);
-		
-		//this.createUI()
-	},   
-	
-	chooseDirectory: function () {
-		var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-			.getService(Components.interfaces.nsIWindowMediator);
-		var win = wm.getMostRecentWindow('navigator:browser');
-
-		var ps = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-			.getService(Components.interfaces.nsIPromptService);
-
-		var nsIFilePicker = Components.interfaces.nsIFilePicker;
-		while (true) {
-			var fp = Components.classes["@mozilla.org/filepicker;1"]
-						.createInstance(nsIFilePicker);
-			fp.init(win, Zotero.getString('dataDir.selectDir'), nsIFilePicker.modeGetFolder);
-			fp.appendFilters(nsIFilePicker.filterAll);
-			if (fp.show() == nsIFilePicker.returnOK) {
-				var file = fp.file;
-
-				// Set preference  
-				//Zotero.ZotFile.prefs.setCharPref(pref,file.path);
-				return(file.path);			
-			}
-			else {
-				return("");
-			}
+		else {
+		    if(confirm("ZotFile Settings\n\nSome of zotfile's default settings have changed and you should make a decision about the source dir. The source dir is the directory where ZotFile looks for the most recently modified file when you 'Attach New File' using zotfile. It is useful to use the default downloads folder from Firefox (currently is '" + this.getFFDownloadDir() + "').\nDo you want to use FF default downloads folder (recommended)?")) {
+			this.prefs.setBoolPref('source_dir_ff',true); 
+		    }
+		    else {
+			this.prefs.setBoolPref('source_dir_ff',false); 
+			if (confirm("ZotFile Settings\n\nPlease select a custom source dir.")) this.prefs.setCharPref('source_dir',this.chooseDirectory());
+  		    }
+                    
+		}			   
+	    }
+            
+	    // check whether valid FF default download folder
+	    if(this.prefs.getBoolPref('source_dir_ff') &  this.getSourceDir(false)==-1) {
+		this.prefs.setBoolPref('source_dir_ff',false);
+		this.prefs.setCharPref('source_dir',prompt("ZotFile Settings\n\nZotfile is not able to determine your default FF download folder. Please enter a custom source dir. The source dir is the directory where ZotFile looks for the most recently modified file when you 'Attach New File' using zotfile."));  			
+	    }
+            
+	    // dest_dir   
+	    if (this.prefs.getCharPref("dest_dir")!="") this.prefs.setBoolPref('import',false);		
+	    if (this.prefs.getCharPref("dest_dir")=="" &  windows)  this.prefs.setBoolPref('import',true);
+	    if (this.prefs.getCharPref("dest_dir")=="" & !windows) {                     
+		if(confirm("ZotFile Settings\n\nSome of zotfile's default settings have changed and you should make a decision about the way attachments are handled ('Destination'). Do you want to import attachments i.e. store a copy of the file in zotero (recommended)? Otherwise attachments are added as a link to the file.")) {
+		    this.prefs.setBoolPref('import',true); 
 		}
-	},
-	
-	infoWindow: function(main, message, time){
-
-		  var pw = new (Zotero.ProgressWindow);
-		  pw.changeHeadline(main); 
-		  if (main=="error") pw.changeHeadline(Zotero.getString("general.errorHasOccurred"));  pw.addDescription(message);
-		  pw.show();
-		  pw.startCloseTimer(time);
-
-	},
-
-	addUserInput: function(filename, original_filename){
-		var default_str = this.prefs.getCharPref("userInput_Default");   
-		if (default_str=="[original filename]") var default_str=original_filename;
-		var filesuffix = prompt("Enter file suffix (press Cancel to add nothing)\n\nOriginal Filename\n"+original_filename+"\n\nNew Filename\n"+filename + " (YOUR INPUT)", default_str);
-		if (filesuffix != '' & filesuffix != null) {
-			// add file type to the file name
-			filename = filename + " (" + filesuffix + ")";
-		}             
-		return(filename);	  
-	},
-	      
-	truncateTitle: function(title){
-		
-	  // truncnate title after : . and ?	
-  	  if(this.prefs.getBoolPref("truncate_title")) {
-		  var truncate = title.search(/:|\.|\?/);
-		  if(truncate!=-1) var title = title.substr(0,truncate);
-	  }
-	  
-	  // truncate if to long
-	  var title_length =  title.length;
-	  if (title_length>this.prefs.getIntPref("max_titlelength")) {   
-		var max_titlelength=this.prefs.getIntPref("max_titlelength");
-		var before_trunc_char = title.substr(max_titlelength,1);
-		
-		// truncate title at max length
-		var title = title.substr(0,max_titlelength);
+		else {
+		    this.prefs.setBoolPref('import',false);
+		    if (confirm("ZotFile Settings\n\nPlease select the folder where you want zotfile to move your attachments.")) this.prefs.setCharPref('dest_dir',this.chooseDirectory());
+                    
+		}
+                
+	    } 
+            
+	    // set firstuse to false
+	    this.prefs.setBoolPref("firstuse",false);
 	    
-	   	// remove the last word until a space is found 
+	}
+	
+	
+        //		this.wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].
+        //				getService(Components.interfaces.nsIWindowMediator);
+	
+	//this.createUI()
+    },   
+    
+    chooseDirectory: function () {
+	var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+	    .getService(Components.interfaces.nsIWindowMediator);
+	var win = wm.getMostRecentWindow('navigator:browser');
+        
+	var ps = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+	    .getService(Components.interfaces.nsIPromptService);
+        
+	var nsIFilePicker = Components.interfaces.nsIFilePicker;
+	while (true) {
+	    var fp = Components.classes["@mozilla.org/filepicker;1"]
+		.createInstance(nsIFilePicker);
+	    fp.init(win, Zotero.getString('dataDir.selectDir'), nsIFilePicker.modeGetFolder);
+	    fp.appendFilters(nsIFilePicker.filterAll);
+	    if (fp.show() == nsIFilePicker.returnOK) {
+		var file = fp.file;
+                
+		// Set preference  
+		//Zotero.ZotFile.prefs.setCharPref(pref,file.path);
+		return(file.path);			
+	    }
+	    else {
+		return("");
+	    }
+	}
+    },
+    
+    infoWindow: function(main, message, time){
+        
+	var pw = new (Zotero.ProgressWindow);
+	pw.changeHeadline(main); 
+	if (main=="error") pw.changeHeadline(Zotero.getString("general.errorHasOccurred"));  pw.addDescription(message);
+	pw.show();
+	pw.startCloseTimer(time);
+        
+    },
+    
+    addUserInput: function(filename, original_filename){
+	var default_str = this.prefs.getCharPref("userInput_Default");   
+	if (default_str=="[original filename]") var default_str=original_filename;
+	var filesuffix = prompt("Enter file suffix (press Cancel to add nothing)\n\nOriginal Filename\n"+original_filename+"\n\nNew Filename\n"+filename + " (YOUR INPUT)", default_str);
+	if (filesuffix != '' & filesuffix != null) {
+	    // add file type to the file name
+	    filename = filename + " (" + filesuffix + ")";
+	}             
+	return(filename);	  
+    },
+    
+    truncateTitle: function(title){
+	
+	// truncnate title after : . and ?	
+  	if(this.prefs.getBoolPref("truncate_title")) {
+	    var truncate = title.search(/:|\.|\?/);
+	    if(truncate!=-1) var title = title.substr(0,truncate);
+	}
+	
+	// truncate if to long
+	var title_length =  title.length;
+	if (title_length>this.prefs.getIntPref("max_titlelength")) {   
+	    var max_titlelength=this.prefs.getIntPref("max_titlelength");
+	    var before_trunc_char = title.substr(max_titlelength,1);
+	    
+	    // truncate title at max length
+	    var title = title.substr(0,max_titlelength);
+	    
+	    // remove the last word until a space is found 
 	    if(this.prefs.getBoolPref("truncate_smart") & title.search(" ")!=-1 & before_trunc_char.search(/[a-zA-Z0-9]/!=-1)) {
-			while (title.substring(title.length-1, title.length) != ' ') title = title.substring(0, title.length-1);
-			var title = title.substring(0, title.length-1);
-		}   
-		/*
-		// loop short last word truncation 5 times (may break in the middle if it's done)
-		for (var i=0;i<=4;i++) {
-			// remove special characters if they apear at the end nad go ahead with truncating
-			var endchar = title.substring(title.length-1, title.length);
-			if (endchar == '.' || endchar == '/' || endchar == '\\' || endchar == '>' || endchar == '<' || endchar == '*' || endchar == '|') {
-				var title = title.substring(0, title.length-1);
-			}		
-			// these character at the end indicate end of sentence
-			// so we do not need to remove short words any more, the truncation is complete
-			if (endchar == ':' || endchar == '?') {
-				var title = title.substring(0, title.length-1);
-				break;
-			} else {
-				// remove words shorter than four characters (like and, or, oter etc.), if there is no word removed the truncation is complete
-				if (title.substring(title.length-2, title.length-1) == ' ') {
-					title = title.substring(0, title.length-2);
-				} else if (title.substring(title.length-3, title.length-2) == ' ') {
-					title = title.substring(0, title.length-3);
-				} else if (title.substring(title.length-4, title.length-3) == ' ') {
-					title = title.substring(0, title.length-4);		
-				} else {
-					break;
-				}
-			}
-		}*/
+		while (title.substring(title.length-1, title.length) != ' ') title = title.substring(0, title.length-1);
+		var title = title.substring(0, title.length-1);
+	    }   
 	  } else {   
 		// remove some non letter characters if they apear at the end of the title that was not truncated
 		var endchar = title.substring(title.length-1, title.length);
@@ -221,10 +179,9 @@ Zotero.ZotFile = {
 		  var title = title.substring(0, title.length-1);
 		}
 	  }
-		
 		// replace forbidden characters with meaningful alternatives (they can only apear in the middle of the text at this point)
 		var title = title.replace(/[\/\\]/g, '-');
-		var title = title.replace(/[\*|"<>]/g, '');
+		var title = title.replace(/[\*|"<>]/g, ''); // "
 		var title = title.replace(/[\?:]/g, ' -');
 		return(title);
 	},
@@ -442,10 +399,6 @@ Zotero.ZotFile = {
 				     // now we want to check which filetype we are looking at
 				     // we only want to consider pdfs, docs, ... 
 				     var filetype=this.getFiletype(file.leafName);
-		//			 var valid_filetypes=new RegExp(this.prefs.getCharPref("filetypes"));
-		//		     var type=filetype.search(valid_filetypes);    
-		//		 	 var type=filetype.search(new RegExp(this.prefs.getCharPref("filetypes").replace(/,/gi,"|")));	    
-                      
 				     if (this.checkFiletype(filetype))  {           			          
 						return_files[success]=file;
 					    var success=success+1;
@@ -561,10 +514,9 @@ Zotero.ZotFile = {
 
 		  // Strip potentially invalid characters
 		  // (code line adopted from Zotero)
-		  var filename = filename.replace(/[\/\\\?\*:|"<>\.]/g, '');
-
+		  var filename = filename.replace(/[\/\\\?\*:|"<>\.]/g, ''); \\ "
 		  // replace blanks with '_' if option selected 	
-		  if (this.prefs.getBoolPref("replace_blanks"))  var filename = filename.replace(/ /g, '_');
+		      if (this.prefs.getBoolPref("replace_blanks"))  var filename = filename.replace(/ /g, '_');
 		
 		}
 		if (this.prefs.getBoolPref("useZoteroToRename")) filename=Zotero.Attachments.getFileBaseNameFromItem(item.itemID);
@@ -701,60 +653,6 @@ Zotero.ZotFile = {
 					// browser.download.useDownloadDir 	      */
 	},   
 	
-		// FUNCTION: Attach New File(s) from Download Folder
-		AttachNewFile: function(){
-			var win = this.wm.getMostRecentWindow("navigator:browser"); 
-			var items = win.ZoteroPane.getSelectedItems();		
-	//		var items = ZoteroPane.getSelectedItems();
-
-			var item = items[0];
-
-			//check whether it really is an bibliographic item (no Attachment, note or collection)
-			if (item.isRegularItem()) {  				
-				  // get source dir
-				  var source_dir=this.getSourceDir(true);
-
-				  // exit if getting source dir was not successful
-				  if (source_dir==-1) return;
-				  			  			
-				  // get files from source dir
-				  if (!this.prefs.getBoolPref("allFiles")) file=this.lastFileInDir(source_dir);
-				  if ( this.prefs.getBoolPref("allFiles")) file=this.allFilesInDir(source_dir);
-				  
-				  // attach them
-				  if(file!=-1 & file!=-2) {
-						for (var i=0; i < file.length; i++) {
-							 
-							// confirmation from user
-							var file_oldpath=file[i].leafName;								
-							var confirmed=1;
-							if (this.prefs.getBoolPref("confirmation")) var confirmed=confirm("Do you want to rename and attach/link the file \'" + file_oldpath + "\' to the currently selected Zotero item?");  		
-							if(confirmed){
-
-								// create linked attachment if local library
-								if (!item.libraryID) var attID=Zotero.Attachments.linkFromFile(file[i], item.itemID,item.libraryID);
-
-								// import attachment if cloud library
-								if (item.libraryID) {
-									var attID=Zotero.Attachments.importFromFile(file[i], item.itemID,item.libraryID);
-						            file[i].remove(false);							
-								}
-
-								// Rename and Move Attachment
-								var att = Zotero.Items.get(attID);
-								this.RenameAttachment(item, att,this.prefs.getBoolPref("import"),this.prefs.getCharPref("dest_dir"),this.prefs.getBoolPref("subfolder"),this.prefs.getCharPref("subfolderFormat"));
-
-							}
-						}	
-						
-				  }
-				  else this.infoWindow("Zotfile Error","Unable to find file(s) in " + source_dir,8000);           
-				
-			}
-			else this.infoWindow("Zotfile Error","Selected item is either an Attachment, a note, or a collection.",8000);	
-//			else this.infoWindow("Zotfile Error","Selected item is in a Group Library.",8000);	
-				
-		},
 HelloWorld: function() {
     alert("Hello World");
 },
@@ -837,22 +735,4 @@ HelloWorld: function() {
 };
 
 
-
-// Initialize the utility
-//window.addEventListener('load', function(e) { Zotero.ZotFile.init(); }, false);
-
-
-//check whether it really is an bibliographic item (no Attachment, note or collection)
-//if (!item.isAttachment() & !item.isCollection() & !item.isNote()) {
-
-
-
-//if (item.isAttachment()) {
-	// consider that you there are multiple senarios
-	// a) attachment is linked, and the goal is to attach it
-	// b) attachment is attached, and the goal is to link it
-	// make sure that nothing bad happens if the attachment is already named correctly
-	
-//}
-//if (item.isCollection() | item.isNote()) this.infoWindow("Zotfile Error","Selected item is either a note, or a collection.",8000);	
 
