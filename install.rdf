@@ -19,15 +19,15 @@
 	<em:requires>
 	   <Description>
 	     <em:id>zotero@chnm.gmu.edu</em:id>
-	     <em:minVersion>1.*</em:minVersion>
+	     <em:minVersion>2.*</em:minVersion>
 	     <em:maxVersion>3.*</em:maxVersion>
 	   </Description>
 	 </em:requires>	
     <!-- Front End MetaData -->
-    <em:name>ZotFile</em:name>
-    <em:description>Zotero Plugin to automatically rename, move, and attach pdf (or other) files to Zotero items by pressing a button. Supports user specified directories and renaming rules using metadata from Zotero items, and batch processing of existing attachments.</em:description>
-    <em:creator>Joscha Legewie</em:creator>
-    <em:homepageURL>http://www.columbia.edu/~jpl2136/zotfile.html</em:homepageURL>
+    <em:name>Zotero Hello World</em:name>
+    <em:description>Zotero Hello World Plugin for Zotero 2.0 and beyond </em:description>
+    <em:creator>An Author</em:creator>
+    <em:homepageURL>http://github.com/singingfish/Zotero-Hello-World</em:homepageURL>
     <em:optionsURL>chrome://z-hello/content/options.xul</em:optionsURL>
   </Description>      
 </RDF>
