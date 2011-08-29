@@ -7,7 +7,7 @@ Zotero.Hello = {
 	observe: function(a, b, c){
 	    //this should get called when the dynamic overlay loading in createUI is complete.
 	    //we adjust UI stuff according to preferences here.
-	    document.getElementById("zotfile-usetags").setAttribute("checked",
+	    document.getElementById("z-hello-usetags").setAttribute("checked",
 				                                    Zotero.Hello.prefs.getBoolPref("useTags").toString());
 	}		
  	},	
@@ -22,7 +22,7 @@ Zotero.Hello = {
 	    action: action
 	};
 	window.openDialog('chrome://z-hello/content/options.xul',
-			  'zotfile-options',
+			  'z-hello-options',
 			  'chrome,titlebar,toolbar,centerscreen'
 			  + Zotero.Prefs.get('browser.preferences.instantApply', true) ? 'dialog=no' : 'modal',
 			  io);   
@@ -32,7 +32,7 @@ Zotero.Hello = {
 	//set up preferences
 	this.prefs = Components.classes["@mozilla.org/preferences-service;1"].
 	    getService(Components.interfaces.nsIPrefService);
-	this.prefs = this.prefs.getBranch("extensions.zotfile.");
+	this.prefs = this.prefs.getBranch("extensions.z-hello.");
         
 	this.ffPrefs = Components.classes["@mozilla.org/preferences-service;1"].
 	    getService(Components.interfaces.nsIPrefService).getBranch("browser.download.");

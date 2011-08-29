@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://z-hello/skin/overlay.css" type="text/css"?>
-<!DOCTYPE window SYSTEM "chrome://z-hello/locale/zotfile.dtd">
+<!DOCTYPE window SYSTEM "chrome://z-hello/locale/z-hello.dtd">
 
-<overlay id="zotfile-overlay"
+<overlay id="z-hello-overlay"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">	
 	
 	<stringbundleset id="stringbundleset">
-		<stringbundle id="zotfile-strings"
-			      src="chrome://z-hello/locale/zotfile.properties"/>
+		<stringbundle id="z-hello-strings"
+			      src="chrome://z-hello/locale/z-hello.properties"/>
 	</stringbundleset>
 	
-	<!-- ZotFile context menus -->	
+	<!-- Zotero Hello context menus -->
 	<menupopup id="zotero-itemmenu">
 		<!-- Make sure the menu separator for utilities is visible -->
 		<menuseparator/>
@@ -18,7 +18,7 @@
 	</menupopup>         
 	
 	<menupopup id="zotero-tb-actions-popup">
-    <menuitem id="zotfile-options" insertafter="zotero-tb-actions-prefs" label="ZotFile Preferences..."
+    <menuitem id="z-hello-options" insertafter="zotero-tb-actions-prefs" label="Zotero Hello World Preferences..."
       oncommand="Zotero.Hello.Preferences();"/>
 	</menupopup>
 	

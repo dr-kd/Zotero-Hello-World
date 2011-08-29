@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 
-<prefwindow id="zotfile-perf" title="ZotFile Preferences"
+<prefwindow id="z-hello-perf" title="Zotero Hello World Preferences"
             xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
             >
   
-  <prefpane label="Zotfile Perferences" id="zotfile-perfpane">
+  <prefpane label="Zotero Hello World Perferences" id="z-hello-perfpane">
     <preferences>
       <preference id="pref-z-hello-bool"                   
                   name="extensions.z-hello-bool" type="bool"/>
