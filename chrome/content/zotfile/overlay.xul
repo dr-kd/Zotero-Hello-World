@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://zotfile/skin/overlay.css" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://zotfile/locale/zotfile.dtd">
+
+<overlay id="zotfile-overlay"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">	
+	
+	<stringbundleset id="stringbundleset">
+		<stringbundle id="zotfile-strings"
+			      src="chrome://zotfile/locale/zotfile.properties"/>
+	</stringbundleset>
+	
+	<!-- ZotFile context menus -->	
+	<menupopup id="zotero-itemmenu">
+		<!-- Make sure the menu separator for utilities is visible -->
+		<menuseparator/>
+		<menuitem label="ZotFile - Attach New File(s)" tooltiptext="Move and attach last file in user defined folder to selected Zotero item" oncommand="Zotero.ZotFile.AttachNewFile();"/>
+		<menuitem label="ZotFile - Rename Existing Attachments" tooltiptext="Move and rename existing Attachments from selected Zotero item" oncommand="Zotero.ZotFile.ExistingAttachments();"/>
+	</menupopup>         
+	
+	<menupopup id="zotero-tb-actions-popup">
+    <menuitem id="zotfile-options" insertafter="zotero-tb-actions-prefs" label="ZotFile Preferences..."
+      oncommand="Zotero.ZotFile.Preferences();"/>
+	</menupopup>
+	
+	
+	<!--
+	<menupopup id="zotero-tb-attachment-add">
+		<menuitem class="menuitem-zotfile-new-item" label="ZotFile - Attach New File" oncommand="Zotero.ZotFile.AttachNewFile();"/>
+		<menuitem class="menuitem-zotfile-rename-item" label="ZotFile - Rename Existing Attachments" oncommand="Zotero.ZotFile.RenameAttachments();"/>
+	</menupopup>	
+	-->
+	
+	<!-- Include the main extension logic -->
+	<script src="chrome://zotero/content/include.js"/>
+	<script src="chrome://zotfile/content/include.js"/>	
+	
+</overlay>
