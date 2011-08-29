@@ -2,7 +2,6 @@ Zotero.ZotFile = {
 	
     prefs: null,
     wm: null,
-    fileMap: {}, //maps collections to their file objects
     
     mergeObserver: {
 	observe: function(a, b, c){
@@ -41,58 +40,9 @@ Zotero.ZotFile = {
 	
 	this.wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
 	    .getService(Components.interfaces.nsIWindowMediator);		   		
-	
     	if (this.prefs.getBoolPref("firstuse")) { 
-	    // open website
-	    window.open("http://www.columbia.edu/~jpl2136/zotfile.html");  
-            
-	    // determine OS
-	    var windows=false;
-	    if (navigator.appVersion.indexOf("Win")!=-1) var windows=true;
-            
-	    // check preferences source_dir
-	    if (this.prefs.getCharPref("source_dir")!="") this.prefs.setBoolPref('source_dir_ff',false);		
-	    if (this.prefs.getCharPref("source_dir")=="" &  windows)  this.prefs.setBoolPref('source_dir_ff',true);
-	    if (this.prefs.getCharPref("source_dir")=="" & !windows) {                     
-		if (this.getFFDownloadDir()==this.createFile("~/Downloads").path) {
-		    this.prefs.setBoolPref('source_dir_ff',true);
-		}
-		else {
-		    if(confirm("ZotFile Settings\n\nSome of zotfile's default settings have changed and you should make a decision about the source dir. The source dir is the directory where ZotFile looks for the most recently modified file when you 'Attach New File' using zotfile. It is useful to use the default downloads folder from Firefox (currently is '" + this.getFFDownloadDir() + "').\nDo you want to use FF default downloads folder (recommended)?")) {
-			this.prefs.setBoolPref('source_dir_ff',true); 
-		    }
-		    else {
-			this.prefs.setBoolPref('source_dir_ff',false); 
-			if (confirm("ZotFile Settings\n\nPlease select a custom source dir.")) this.prefs.setCharPref('source_dir',this.chooseDirectory());
-  		    }
-                    
-		}			   
-	    }
-            
-	    // check whether valid FF default download folder
-	    if(this.prefs.getBoolPref('source_dir_ff') &  this.getSourceDir(false)==-1) {
-		this.prefs.setBoolPref('source_dir_ff',false);
-		this.prefs.setCharPref('source_dir',prompt("ZotFile Settings\n\nZotfile is not able to determine your default FF download folder. Please enter a custom source dir. The source dir is the directory where ZotFile looks for the most recently modified file when you 'Attach New File' using zotfile."));  			
-	    }
-            
-	    // dest_dir   
-	    if (this.prefs.getCharPref("dest_dir")!="") this.prefs.setBoolPref('import',false);		
-	    if (this.prefs.getCharPref("dest_dir")=="" &  windows)  this.prefs.setBoolPref('import',true);
-	    if (this.prefs.getCharPref("dest_dir")=="" & !windows) {                     
-		if(confirm("ZotFile Settings\n\nSome of zotfile's default settings have changed and you should make a decision about the way attachments are handled ('Destination'). Do you want to import attachments i.e. store a copy of the file in zotero (recommended)? Otherwise attachments are added as a link to the file.")) {
-		    this.prefs.setBoolPref('import',true); 
-		}
-		else {
-		    this.prefs.setBoolPref('import',false);
-		    if (confirm("ZotFile Settings\n\nPlease select the folder where you want zotfile to move your attachments.")) this.prefs.setCharPref('dest_dir',this.chooseDirectory());
-                    
-		}
-                
-	    } 
-            
-	    // set firstuse to false
+            alert("First Use!");
 	    this.prefs.setBoolPref("firstuse",false);
-	    
 	}
 	
 	
