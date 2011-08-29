@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<prefwindow id="z-hello-perf" title="Zotero Hello World Preferences"
+            xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+            >
+  
+  <prefpane label="Zotero Hello World Perferences" id="z-hello-perfpane">
+    <preferences>
+      <preference id="pref-z-hello-bool"                   
+                  name="extensions.z-hello-bool" type="bool"/>
+    </preferences>  
+    
+    <tabbox id="z-hello-tabbox">
+      <tabs id="z-hello-tabs">
+	<tab label="General Settings"/>
+	<tab label="Renaming Rules"/>
+      </tabs>
+      
+      <tabpanels id="z-hello-tabpanels">
+	<tabpanel orient="vertical">
+	  <groupbox>
+            "BOO!"
+          </groupbox>
+	  <groupbox>
+	    "BOOO!"
+	  </groupbox>
+	  <groupbox>
+            "BOOOO!"
+	  </groupbox> 
+          <description>Some Explanation Here</description>
+ 	  
+	</tabpanel>
+
+	<tabpanel orient="vertical">
+          <label value="Hello!"/>
+          <hbox style="margin: 0">
+	    <button  id="id-z-hello-preview-button" label="Update"
+                     oncommand="Zotero.Hello.HelloWorld()"/>
+   	  </hbox> 
+   	  <separator/>	                        	  
+	  <hbox style="margin: 0">					
+	    <label style="font-size: 9px" value="Speil here"/>
+            <description>Some text here...</description>
+          </hbox>
+	</tabpanel>		 
+      </tabpanels>
+    </tabbox>			                      
+  </prefpane> 
+  
+  <script src="options.js"/> 
+  <script src="chrome://zotero/content/include.js"/>
+  <script src="chrome://z-hello/content/include.js"/>	
+  
+</prefwindow>  
