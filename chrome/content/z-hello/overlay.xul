@@ -16,7 +16,12 @@
 		<menuseparator/>
 		<menuitem label="Hello World" tooltiptext="Hello World" oncommand="Zotero.Hello.HelloWorld();"/>
 	</menupopup>         
-	
+
+<menupopup id="zotero-collectionmenu">
+  <menuseparator/>
+  <menuitem label="Hello Collection!" tooltiptext="Hello Collection" oncommand="Zotero.Hello.HelloWorld();"/>
+</menupopup>
+        
 	<menupopup id="zotero-tb-actions-popup">
     <menuitem id="z-hello-options" insertafter="zotero-tb-actions-prefs" label="Zotero Hello World Preferences..."
       oncommand="Zotero.Hello.Preferences();"/>
