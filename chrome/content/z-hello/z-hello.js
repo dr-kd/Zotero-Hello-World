@@ -57,14 +57,16 @@ Zotero.Hello = {
         var results =  items.length + " items Selected\n"
             for (i in items) {
                 var item = items[i]
-                results = results +  "Item count " + i+1 + ": " + item.getField('title') + "\n";
+                results = results +  "* " + item.getField('title') + "\n";
             }
         alert(results);
     },
     
 
     GetCollectionItems: function() {
-        alert ("Deal with items in the currently selected collection here");
+        var collection= this.pane.getSelectedCollection();
+        var items = collection.getChildItems();
+        this.AlertItems(items);
     },
 
     HelloWorld: function() {

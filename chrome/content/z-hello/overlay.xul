@@ -21,7 +21,7 @@
 
 <menupopup id="zotero-collectionmenu">
   <menuseparator/>
-  <menuitem label="Hello Collection!" tooltiptext="Hello Collection" oncommand="Zotero.Hello.GetCollectionItems();"/>
+  <menuitem label="Get Items In Collection" tooltiptext="Get Items in Collection" oncommand="Zotero.Hello.GetCollectionItems();"/>
 </menupopup>
         
 	<menupopup id="zotero-tb-actions-popup">
