@@ -51,18 +51,23 @@ Zotero.Hello = {
     
     GetSelectedItem: function() {
         var items = this._getSelectedItems();
-        var results =  items.length + " items Selected\n"
-        for (i in items) {
-            var item = items[i]
-            results = results +  "Item count " + i+1 + ": " + item.getField('title') + "\n";
-        }
-        alert(results);
+        this.AlertItems(this._getSelectedItems());
     },
 
     _getSelectedItems: function() {
         var selected_items = this.pane.getSelectedItems();
         return selected_items;
     },
+    
+    AlertItems: function(items) {
+        var results =  items.length + " items Selected\n"
+            for (i in items) {
+                var item = items[i]
+                results = results +  "Item count " + i+1 + ": " + item.getField('title') + "\n";
+            }
+        alert(results);
+    },
+    
 
     GetCollectionItems: function() {
         alert ("Deal with items in the currently selected collection here");
