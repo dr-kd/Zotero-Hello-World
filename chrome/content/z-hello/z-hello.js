@@ -45,13 +45,32 @@ Zotero.Hello = {
 	}
     },   
     
-    ReturnStuff: function(message) {
-        return message;
+    GetSelectedItem: function() {
+        var items = this._getSelectedItems();
+        var results =  items.length + " items Selected\n"
+        for (i in items) {
+            var item = items[i]
+            results = results +  "Item count " + i+1 + ": " + item.getField('title') + "\n";
+        }
+        alert(results);
     },
-	
+
+    _getSelectedItems: function() {
+        var ZoteroPane = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+         .getService(Components.interfaces.nsIWindowMediator)
+         .getMostRecentWindow("navigator:browser").ZoteroPane;
+        var selected_items = ZoteroPane.getSelectedItems();
+        return selected_items;
+    },
+
+    GetCollectionItems: function() {
+        alert ("Deal with items in the currently selected collection here");
+    },
+
     HelloWorld: function() {
-        alert(this.ReturnStuff("Hello World"));
+        alert ("Hello World");
     },
+
 };
 
 

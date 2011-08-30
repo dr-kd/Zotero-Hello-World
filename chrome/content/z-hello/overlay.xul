@@ -12,14 +12,16 @@
 	
 	<!-- Zotero Hello context menus -->
 	<menupopup id="zotero-itemmenu">
-		<!-- Make sure the menu separator for utilities is visible -->
-		<menuseparator/>
-		<menuitem label="Hello World" tooltiptext="Hello World" oncommand="Zotero.Hello.HelloWorld();"/>
+	  <!-- Make sure the menu separator for utilities is visible -->
+	  <menuseparator/>
+	  <menuitem label="Get Selected Items"
+                    tooltiptext="Get Selected Items"
+                    oncommand="Zotero.Hello.GetSelectedItem();"/>
 	</menupopup>         
 
 <menupopup id="zotero-collectionmenu">
   <menuseparator/>
-  <menuitem label="Hello Collection!" tooltiptext="Hello Collection" oncommand="Zotero.Hello.HelloWorld();"/>
+  <menuitem label="Hello Collection!" tooltiptext="Hello Collection" oncommand="Zotero.Hello.GetCollectionItems();"/>
 </menupopup>
         
 	<menupopup id="zotero-tb-actions-popup">
