@@ -16,7 +16,7 @@
 	  <menuseparator/>
 	  <menuitem label="Get Selected Items"
                     tooltiptext="Get Selected Items"
-                    oncommand="Zotero.Hello.GetSelectedItem();"/>
+                    oncommand="Zotero.Hello.GetSelectedItems();"/>
 	</menupopup>         
 
 <menupopup id="zotero-collectionmenu">

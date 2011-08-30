@@ -49,16 +49,10 @@ Zotero.Hello = {
 	}
     },   
     
-    GetSelectedItem: function() {
-        var items = this._getSelectedItems();
-        this.AlertItems(this._getSelectedItems());
+    GetSelectedItems: function() {
+        this.AlertItems(this.pane.getSelectedItems());
     },
 
-    _getSelectedItems: function() {
-        var selected_items = this.pane.getSelectedItems();
-        return selected_items;
-    },
-    
     AlertItems: function(items) {
         var results =  items.length + " items Selected\n"
             for (i in items) {
