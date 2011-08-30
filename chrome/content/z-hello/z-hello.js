@@ -2,6 +2,10 @@ Zotero.Hello = {
 	
     prefs: null,
     wm: null,
+    pane : Components.classes["@mozilla.org/appshell/window-mediator;1"]
+        .getService(Components.interfaces.nsIWindowMediator)
+        .getMostRecentWindow("navigator:browser").ZoteroPane,
+
     
     mergeObserver: {
 	observe: function(a, b, c){
@@ -56,10 +60,7 @@ Zotero.Hello = {
     },
 
     _getSelectedItems: function() {
-        var ZoteroPane = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-         .getService(Components.interfaces.nsIWindowMediator)
-         .getMostRecentWindow("navigator:browser").ZoteroPane;
-        var selected_items = ZoteroPane.getSelectedItems();
+        var selected_items = this.pane.getSelectedItems();
         return selected_items;
     },
 
