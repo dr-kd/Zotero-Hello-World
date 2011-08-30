@@ -3,7 +3,7 @@
      xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 
   <Description about="urn:mozilla:install-manifest">
-    <em:id>helloworld@zotero.org</em:id>
+    <em:id>helloworld@notzotero.org</em:id>
     <em:version>0.1</em:version>
     <em:type>2</em:type>
    
